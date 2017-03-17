@@ -22,7 +22,6 @@ public class World {
 
     private List<CellWorkable> ouverte;
     private List<CellWorkable> ferme;
-    IsometricTiledMapRenderer
 
     private Perso perso;
 
@@ -39,7 +38,7 @@ public class World {
                 stage.addActor(myCase);
             }
         }
-        perso = new Perso(0,0,0,0,(Case)terrain[0][0],this);
+        perso = new Perso(0,0,0,0,(Case)terrain[0][0],this,stage.getCamera());
         stage.addActor(perso);
     }
 
@@ -66,9 +65,10 @@ public class World {
                 }
             }
         }
-        perso = new Perso(0,0,0,0,(Case)terrain[0][0],this);
+        perso = new Perso(0,0,0,0,(Case)terrain[0][0],this,stage.getCamera());
         stage.addActor(perso);
 
+        stage.getCamera().position.set(perso.getX(),perso.getY(),0);
     }
 
 

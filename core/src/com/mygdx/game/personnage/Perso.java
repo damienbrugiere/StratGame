@@ -1,5 +1,6 @@
 package com.mygdx.game.personnage;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -26,10 +27,11 @@ public class Perso extends Actor {
     private int pvEnCours, paEnCours, pmEnCours;
     private Sprite sprite;
     private Case caseDuPerso;
+    private Camera camera;
 
-
-    public Perso(int pa, int pm, int pv, int force, Case caseDuPerso, final World world) {
+    public Perso(int pa, int pm, int pv, int force, Case caseDuPerso, final World world, Camera camera) {
         super();
+        this.camera = camera;
         this.pa = pa;
         this.pm = pm;
         this.pv = pv;
@@ -97,6 +99,7 @@ public class Perso extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        this.camera.position.set(getX(),getY(),0);
         batch.draw(sprite, getX(), getY());
     }
 }
