@@ -1,10 +1,9 @@
-package com.mygdx.game;
+package com.mygdx.game.cells;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.mygdx.game.cells.CellWorkable;
+import com.mygdx.game.screen.stage.World;
 
 /**
  * Created by damien on 13/03/2017.
@@ -28,5 +27,13 @@ public class Case extends CellWorkable {
         return this;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

@@ -1,0 +1,53 @@
+[
+    {
+        label:"Donjon 1",
+        block:false,
+        map:"map1"
+    },
+     {
+        label:"Donjon 2",
+        block:false,
+        map:"map2"
+    },
+     {
+        label:"Donjon 3",
+        block:true,
+        map:"map1"
+    },
+     {
+        label:"Donjon 4",
+        block:true,
+        map:"map1"
+    },
+     {
+        label:"Donjon 5",
+        block:true,
+        map:"map1"
+    },
+     {
+        label:"Donjon 6",
+        block:true,
+        map:"map1"
+    },
+     {
+        label:"Donjon 7",
+        block:true,
+        map:"map1"
+    },
+     {
+        label:"Donjon 8",
+        block:true,
+        map:"map1"
+    },
+     {
+        label:"Donjon 9",
+        block:true,
+        map:"map1"
+    },
+     {
+        label:"Donjon 10",
+        block:true,
+        map:"map1"
+    }
+
+]
