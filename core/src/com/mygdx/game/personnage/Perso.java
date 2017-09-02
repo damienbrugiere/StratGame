@@ -7,7 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.game.Action.Attack;
 import com.mygdx.game.Action.PersoArret;
 import com.mygdx.game.cells.Case;
 import com.mygdx.game.StratGame;
@@ -24,14 +26,16 @@ import java.util.List;
 public abstract class Perso extends Actor {
 
     protected int pa, pm, pv, force;
-    private int pvEnCours, paEnCours, pmEnCours;
-    private Sprite sprite, portrait;
+    protected int pvEnCours, paEnCours, pmEnCours;
+    private Sprite sprite;
+    private Image portrait;
     private Case caseDuPerso;
     private Camera camera;
-    private boolean running, attacking, selected;
+    protected boolean running, attacking, selected;
 
     protected Competence competence;
-    protected Perso(int pa, int pm, int pv, int force, Case caseDuPerso, final World world, Camera camera,boolean selected,Sprite sprite,Sprite miniportrait) {
+
+    protected Perso(int pa, int pm, int pv, int force, Case caseDuPerso, final World world, Camera camera, boolean selected, Sprite sprite, Image miniportrait) {
         super();
         this.selected = selected;
         this.camera = camera;
@@ -47,7 +51,7 @@ public abstract class Perso extends Actor {
         this.running = false;
         setX(caseDuPerso.getX());
         setY(caseDuPerso.getY());
-        competence = new Competence(4,1,2);
+        competence = new Competence(4, 1, 2);
         this.portrait = miniportrait;
         this.addListener(new ClickListener() {
                              @Override
@@ -56,6 +60,21 @@ public abstract class Perso extends Actor {
                              }
                          }
         );
+    }
+
+    protected Perso(int pa, int pm, int pv, int force, Image miniPortrait) {
+        super();
+        this.pa = pa;
+        this.pm = pm;
+        this.pv = pv;
+        this.pvEnCours = pv;
+        this.paEnCours = pa;
+        this.pmEnCours = pm;
+        this.force = force;
+        this.running = false;
+        this.portrait = miniPortrait;
+        this.competence = new Competence(4, 1, 2);
+        this.sprite = new Sprite(StratGame.textures.get("perso"));
     }
 
 
@@ -75,10 +94,11 @@ public abstract class Perso extends Actor {
         if (buffer <= 0) {
             return false;
         }
-        paEnCours=buffer;
+        paEnCours = buffer;
         return true;
     }
-    public void changeCells(){
+
+    public void changeCells() {
         competence.changeCells(this);
     }
 
@@ -97,25 +117,42 @@ public abstract class Perso extends Actor {
         }
     }
 
-    public void updatePortraitPosition(int x, int y){
+    public void updatePortraitPosition(int x, int y) {
         this.portrait.setX(x);
         this.portrait.setY(y);
     }
-    public void affichePortrait(Batch batch){
-            this.portrait.draw(batch);
-        if(isDead())
-            batch.draw(StratGame.textures.get("miniportraitdead"),portrait.getX(),portrait.getY());
-    }
-    public boolean isDead(){
-        return pvEnCours<=0;
-    }
-    public float getPortraitX(){
-        return portrait.getX()-5;
+
+    public void affichePortrait(Batch batch, float parentAlpha) {
+        this.portrait.draw(batch, parentAlpha);
+        if (isDead())
+            batch.draw(StratGame.textures.get("miniportraitdead"), portrait.getX(), portrait.getY());
     }
 
-    public float getPortraitY(){
-        return portrait.getY()-5;
+    public void placement(final World world, Case caseDuPerso) {
+        setCaseDuPerso(caseDuPerso);
+        this.camera = world.getCamera();
+        this.running = false;
+        this.addListener(new ClickListener() {
+                             @Override
+                             public void clicked(InputEvent event, float x, float y) {
+                                 world.persoSelectionne(perso());
+                             }
+                         }
+        );
     }
+
+    public boolean isDead() {
+        return pvEnCours <= 0;
+    }
+
+    public float getPortraitX() {
+        return portrait.getX() - 5;
+    }
+
+    public float getPortraitY() {
+        return portrait.getY() - 5;
+    }
+
     public int getCaseX() {
         return caseDuPerso.getCaseX();
     }
@@ -125,21 +162,42 @@ public abstract class Perso extends Actor {
     }
 
     public void mouvement(List<CellWorkable> toCases) {
-        if (toCases != null && !toCases.isEmpty() && toCases.size()-1<=pmEnCours) {
-            int nb = toCases.size()-1;
-            this.pmEnCours-= nb;
-            this.running=true;
-            Action[] actions = new Action[toCases.size()+1];
+        if (toCases != null && !toCases.isEmpty() && toCases.size() - 1 <= pmEnCours) {
+            int nb = toCases.size() - 1;
+            this.pmEnCours -= nb;
+            this.running = true;
+            Action[] actions = new Action[toCases.size() + 1];
             int i = 0;
             for (CellWorkable caseSelected : toCases) {
                 System.out.println(caseSelected.toString());
-                actions[i] =Actions.sequence(Actions.moveTo(caseSelected.getX(),caseSelected.getY(),0.5f));
+                actions[i] = Actions.sequence(Actions.moveTo(caseSelected.getX(), caseSelected.getY(), 0.5f));
                 i++;
             }
-            actions[toCases.size()] = new PersoArret((Case) toCases.get(toCases.size()-1));
+            actions[toCases.size()] = new PersoArret((Case) toCases.get(toCases.size() - 1));
             this.addAction(Actions.sequence(actions));
             this.caseDuPerso = (Case) toCases.get(toCases.size() - 1);
         }
+    }
+
+    public Action[] buildActions(List<CellWorkable> toCases, Attack attack) {
+        if (toCases != null && !toCases.isEmpty() && toCases.size() - 1 <= pmEnCours) {
+            int nb = toCases.size() - 1;
+            this.pmEnCours -= nb;
+            this.running = true;
+            Action[] actions = new Action[toCases.size() + 2];
+            int i = 0;
+            for (CellWorkable caseSelected : toCases) {
+                System.out.println(caseSelected.toString());
+                actions[i] = Actions.sequence(Actions.moveTo(caseSelected.getX(), caseSelected.getY(), 0.5f));
+                i++;
+            }
+            actions[toCases.size()] = new PersoArret((Case) toCases.get(toCases.size() - 1));
+            actions[toCases.size() + 1] = attack;
+            return actions;
+        }
+        Action[] actions = new Action[1];
+        actions[0] = attack;
+        return actions;
     }
 
     public Case getCase() {
@@ -164,6 +222,10 @@ public abstract class Perso extends Actor {
         return paEnCours;
     }
 
+    public int getPv() {
+        return pv;
+    }
+
     public int getPvEnCours() {
         return pvEnCours;
     }
@@ -186,31 +248,38 @@ public abstract class Perso extends Actor {
     }
 
 
-    public void initPmEtPa(){
-        this.pmEnCours=pm;
-        this.paEnCours=pa;
+    public void initPmEtPa() {
+        this.pmEnCours = pm;
+        this.paEnCours = pa;
     }
-    public void initCasesPossibles(){
+
+    public void initCasesPossibles() {
         competence.changeCells(this);
     }
+
     public abstract void attaque(Perso perso);
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        if(!isDead()){
-        if(selected){
-            this.camera.position.set(getX(),getY(),0);
-        }
-        batch.draw(sprite, getX(), getY());
-        if(attacking){
-            competence.affichePossibilite(batch,parentAlpha);
-        }
+        if (!isDead()) {
+            if (selected) {
+                this.camera.position.set(getX(), getY(), 0);
+            }
+            batch.draw(sprite, getX(), getY());
+            if (attacking) {
+                competence.affichePossibilite(batch, parentAlpha);
+            }
         }
 
     }
 
-    public void afficheCompetence(Batch batch,float parentAlpha){
+    public void afficheCompetence(Batch batch, float parentAlpha) {
         batch.begin();
-        competence.draw(batch,parentAlpha);
+        competence.draw(batch, parentAlpha);
         batch.end();
+    }
+
+    public Image getPortrait() {
+        return this.portrait;
     }
 }

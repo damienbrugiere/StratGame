@@ -6,6 +6,7 @@
         pv:50,
         force:10,
         prix:5,
+	miniportrait:"miniportrait",
         name:"Tanky"
     },
      {
@@ -15,6 +16,7 @@
         pv:30,
         force:25,
         prix:15,
+	miniportrait:"miniportrait",
         name:"Guerrier"
     },
      {
@@ -24,6 +26,7 @@
         pv:80,
         force:15,
         prix:30,
+	miniportrait:"miniportrait",
         name:"Tank Supreme"
     },
      {
@@ -33,6 +36,7 @@
         pv:70,
         force:15,
         prix:5,
+	miniportrait:"miniportrait",
         name:"Tork"
     },
      {
@@ -42,6 +46,7 @@
         pv:15,
         force:45,
         prix:20,
+	miniportrait:"miniportrait",
         name:"Assasin"
     }
 ]

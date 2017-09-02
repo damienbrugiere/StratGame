@@ -1,5 +1,6 @@
 package com.mygdx.game.pathfinding;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.game.Terrain;
 import com.mygdx.game.cells.Cell;
 import com.mygdx.game.cells.CellWorkable;

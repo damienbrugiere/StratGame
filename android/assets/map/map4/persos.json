@@ -1,22 +1,5 @@
 [
-    {
-        type:"soldat",
-        pa:5,
-        pm:5,
-        pv:20,
-        force:35,
-        x:2,
-        y:0
-    },
-     {
-        type:"soldat",
-        pa:5,
-        pm:5,
-        pv:20,
-        force:20,
-        x:0,
-        y:0
-    },
+   
     {
         type:"monstre",
         pa:5,

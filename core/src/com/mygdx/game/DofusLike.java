@@ -15,13 +15,14 @@ public class DofusLike extends Game{
     private HomeScreen homeScreen;
     @Override
     public void create() {
-        gameScreen = new GameScreen();
+        gameScreen = new GameScreen(this);
         homeScreen = new HomeScreen(this);
         recrutementScreen = new RecrutementScreen(this);
         setScreen(homeScreen);
     }
 
     public void changeMenu(String map) {
+        gameScreen = new GameScreen(this);
         gameScreen.setMap(map);
         setScreen(gameScreen);
     }

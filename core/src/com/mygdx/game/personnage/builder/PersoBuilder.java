@@ -15,7 +15,7 @@ import java.io.Serializable;
 
 public class PersoBuilder implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String type;
+    private String type,miniportrait;
     private int pa, pm, pv, force, x, y;
 
     public PersoBuilder() {
@@ -37,7 +37,7 @@ public class PersoBuilder implements Serializable {
     public Perso build() {
         switch (type) {
             case "soldat":
-                return new Soldat(pa, pm, pv, force, false);
+                return new Soldat(pa, pm, pv, force, false,miniportrait);
 
             case "monstre":
                 return new Monstre(pa, pm, pv, force, false);
@@ -101,5 +101,13 @@ public class PersoBuilder implements Serializable {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public String getMiniportrait() {
+        return miniportrait;
+    }
+
+    public void setMiniportrait(String miniportrait) {
+        this.miniportrait = miniportrait;
     }
 }

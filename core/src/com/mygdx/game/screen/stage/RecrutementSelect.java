@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -33,17 +34,19 @@ public class RecrutementSelect extends Stage {
             button.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-
+                    StratGame.information.acheter(persoRecrutement);
                 }
             });
             scrollTable.add(button).padBottom(50);
             scrollTable.row();
         }
-        final ScrollPane scroller = new ScrollPane(scrollTable);
 
+        final ScrollPane scroller = new ScrollPane(scrollTable);
         final Table table = new Table();
+
         table.setFillParent(true);
         table.add(scroller).fill().expand();
+
         this.addActor(table);
     }
 }

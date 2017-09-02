@@ -1,5 +1,8 @@
 package com.mygdx.game.personnage.builder;
 
+import com.mygdx.game.personnage.Perso;
+import com.mygdx.game.personnage.Soldat;
+
 import java.io.Serializable;
 
 /**
@@ -24,5 +27,9 @@ public class PersoRecrutement extends PersoBuilder implements Serializable {
 
     public void setPrix(int prix) {
         this.prix = prix;
+    }
+
+    public Soldat toSoldat(){
+       return (Soldat)this.build();
     }
 }

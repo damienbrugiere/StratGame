@@ -3,13 +3,16 @@ package com.mygdx.game.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.mygdx.game.DofusLike;
 import com.mygdx.game.StratGame;
+import com.mygdx.game.screen.stage.PopUp;
 import com.mygdx.game.screen.stage.World;
 import com.mygdx.game.hud.Baniere;
 import com.mygdx.game.hud.Barre;
@@ -22,10 +25,13 @@ import com.mygdx.game.personnage.Perso;
 
 public class GameScreen implements Screen {
     private Stage hud;
+    private PopUp popUp;
     private World world;
     private String map;
+    private DofusLike dofusLike;
 
-    public GameScreen() {
+    public GameScreen(DofusLike dofusLike) {
+        this.dofusLike = dofusLike;
         hud = new Stage();
         map = "";
     }
@@ -36,7 +42,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        world = new World( map);
+        world = new World( map,this);
         final Baniere baniere = new Baniere();
         hud.addActor(baniere);
         final Barre barre = new Barre(world.getPerso());
@@ -103,12 +109,21 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(multiplexer);
     }
 
+    public void setPopUp(Texture texture){
+        popUp = new PopUp(texture,dofusLike);
+        Gdx.input.setInputProcessor(popUp);
+    }
+
     @Override
     public void render(float delta) {
         world.act();
         world.draw();
         hud.act();
         hud.draw();
+        if(popUp!=null){
+            popUp.act();
+            popUp.draw();
+        }
 
     }
 

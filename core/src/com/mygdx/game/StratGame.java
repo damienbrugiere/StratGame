@@ -22,6 +22,7 @@ public class StratGame extends ApplicationAdapter {
     public static Map<String, Texture> textures;
     public static ImageTextButton.ImageTextButtonStyle styleButton;
     public static ImageTextButton.ImageTextButtonStyle styleButton1;
+    public static ImageTextButton.ImageTextButtonStyle styleButton2;
     public static Information information;
     private DofusLike dofusLike;
     public static Drawable buttonUp,buttonDown;
@@ -42,9 +43,13 @@ public class StratGame extends ApplicationAdapter {
         this.styleButton = new ImageTextButton.ImageTextButtonStyle(textButtonStyle);
         this.styleButton.up = new TextureRegionDrawable(new TextureRegion(new Texture("bouton_jaune.png")));
 
+        this.styleButton2 = new  ImageTextButton.ImageTextButtonStyle(textButtonStyle1);
+        this.styleButton2.up = new TextureRegionDrawable(new TextureRegion(new Texture("buttonpopup.png")));
+
         buttonUp = new TextureRegionDrawable(new TextureRegion(new Texture("bouton_jaune.png")));
         buttonDown = new TextureRegionDrawable(new TextureRegion(new Texture("button_bleu.png")));
         textures = new HashMap<String, Texture>();
+        textures.put("backgroundperso", new Texture("backgroundperso.png"));
         textures.put("casenotworkable", new Texture("caseNotWorkable.png"));
         textures.put("caseworkable", new Texture("caseTexture.png"));
         textures.put("perso", new Texture("perso.png"));
@@ -63,11 +68,13 @@ public class StratGame extends ApplicationAdapter {
         textures.put("miniportraitenemie", new Texture("miniportraitenemi.png"));
         textures.put("enemie", new Texture("enemi.png"));
         textures.put("miniportraitdead", new Texture("miniportraitdead.png"));
+        textures.put("defeat", new Texture("defeat.png"));
+        textures.put("victory", new Texture("victory.png"));
         textures.put("po", new Texture("po.png"));
+        textures.put("backgroundpopup", new Texture("backgroundpopup.png"));
+        textures.put("buttonpopup", new Texture("buttonpopup.png"));
         dofusLike = new DofusLike();
         dofusLike.create();
-
-
     }
 
     @Override
